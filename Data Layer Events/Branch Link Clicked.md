@@ -7,10 +7,10 @@ This event is designed to measure custom clicks on branch links throughout the s
 ## Use Cases
 You can use this event to track various interactions, including but not limited to:
 * **My Branch** – Contact Branch
-* **Email Branch**
-* **Phone**
+  * **Email Branch**
+  * **Phone**
 * **My Branch** – Account Rep
-* **Email Rep**
+  * **Email Rep**
 
 ---
 
@@ -39,6 +39,3 @@ window.appEventData.push({
 | **linkText** | `string` | The actual text or label displayed on the link. | Email Branch, Email Rep, tel: |
 | **contactInfo** | `string` | The hashed phone number or email address associated with the link. | (123)-456-7890, email123@email.com |
 
-> **Note:** While the `contactInfo` description mentions "hashed" data, ensure your implementation follows your organization's specific PII (Personally Identifiable Information) security protocols before pushing live.
-branch_link_clicked.md
-Displaying branch_link_clicked.md.
