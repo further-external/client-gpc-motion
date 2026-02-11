@@ -56,9 +56,7 @@ appEventData.push({
     }]
   }
 });
-```
-
-* The data layer variables for a listing click are the same as those within the “Listing Viewed” specification except that this would contain ONLY the data for the specific item that was clicked. 
+``` 
 
 ---
 
