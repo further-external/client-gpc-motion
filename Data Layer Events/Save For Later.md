@@ -9,7 +9,7 @@ Saving a single line item (or multiple in the future) in a cart.
 ```javascript
 appEventData || [];
 appEventData.push({
-  "event": "Save To List", 
+  "event": "Save For Later", 
   "saveForLater": {
     "numberOfItemsSaved": "<numberOfItemsSaved>",
     "product": [{
