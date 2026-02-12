@@ -10,7 +10,7 @@ This event is set when the site visitor executes a save to list action.
 appEventData || [];
 appEventData.push({
   "event": "Save To List", 
-  "saveCart": {
+  "saveToList": {
     "numberOfItemsSaved": "<numberOfItemsSaved>",
     "product": [{
       "productInfo": {
