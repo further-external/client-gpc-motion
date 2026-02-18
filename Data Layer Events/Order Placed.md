@@ -23,6 +23,7 @@ appEventData.push({
     "quote": "<quote>",
     "releaseNumber": "<releaseNumber>",
     "shippingMethod": "<shippingMethod>",
+    "shippingCost": "<shippingCost>",
     "stateProvince": "<stateProvince>",
     "transactionID": "<transactionID>",
     "product": [{
@@ -103,6 +104,7 @@ appEventData.push({
 | **quoteRequired** | string | Set with a value of "yes" or "no" for each item when a cart is saved, saved to a list, or products are moved to a cart from a saved cart/list. | yes -OR- no |
 | **releaseNumber** | string | Set with “yes” if the user entered a release number, set to “no” otherwise | Yes/No |
 | **sellingPrice** | string | This should be added as the price for the product including the discount amount. | 97.88, 805.09 |
+| **shippingCost** | string | This is the cost associated with the shipping option a user selects.| 0.00, 20.00, 15.00 |
 | **shippingMethod** | string | Describes the method or carrier and method of shipment. Should be common terminology within your business. | Complete:No:Fedex - Overnight |
 | **sku** | string | Stock Keeping Unit (SKU) Unique Identifier of specific item (typically) held in inventory. | 34567890, 4567890, 00155-large-cornflower |
 | **specialPricingCampaign** | string | Friendly name of special pricing event. | “Fall promotion”, “Summer discounts 2025” |
