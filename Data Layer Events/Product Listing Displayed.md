@@ -34,7 +34,6 @@ appEventData.push({
     "sortView": "<sortView>",
     "product": [{
       "productInfo": {
-        "addType": "<addType>",
         "brand": "<brand>",
         "cartThreshold": "<cartThreshold>",
         "daysSaved": "<daysSaved>",
@@ -77,7 +76,6 @@ appEventData.push({
 
 | field | type | description | examples |
 | :--- | :--- | :--- | :--- |
-| **addType** | string | When a product is added to cart, this will be set to the add type used by the visitor | product detail, supporting items, related items, product listing, search results, catalog, promotions, homepage featured, previous order, upload, demonstrated products, conversion, etc., cart save for later, saved cart, saved list |
 | **basePrice** | string | Total price of the product, each of these fields exists depending on the event and context. | 97.88, 805.09 |
 | **brand** | string | Set with the brand of the product | krylon |
 | **cartThreshold** | string | Will provide details on if the threshold between cart add and request a quote has been met | add to cart -OR- request a quote |
