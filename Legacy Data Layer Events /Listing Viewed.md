@@ -13,44 +13,53 @@ Search Within Results
 ---
 
 ```js
-appEventData || [];
-
+appEventData = window.appEventData || [];
 appEventData.push({
   "event": "Listing Viewed",
   "listing": {
     "listingParams": {
-      "pageNum": "<pageNum>"    
+      "refinements": [
+        {
+          "refinementType": "<refinementType>",
+          "refinementValue": "<refinementValue>"
+        }
+      ],
       "searchInfo": {
-        "searchTermEntered": "<searchTermEntered>",
-        "searchMethod": "<searchMethod>"
-      },
-      "refinements": {
-        "refinementType": "<refinementType>",
-        "refinementValue": "<refinementValue>"
+        "searchMethod": "<searchMethod>",
+        "searchTermEntered": "<searchTermEntered>"
       },
       "sorts": {
-        "sortSequence": "<sortSequence>",
-        "sortView": "<sortView>"
-      }
+        "sortView": "<sortView>",
+        "sortSequence": "<sortSequence>"
+      },
+      "pageNum": "<pageNum>"
     },
     "listingResults": {
-      "resultsCount": "<resultsCount>",
-      "resultsShown": "<resultsShown>",
+      "item": [
+        {
+          "productInfo": {
+            "sku": "<sku>",
+            "productID": "<productID>",
+            "brand": "<brand>",
+            "inventoryStatus": "<inventoryStatus>",
+            "productImage": "<productImage>",
+            "promoPricing": "<promoPricing>",
+            "specialPricingInitiative": "<specialPricingInitiative>",
+            "quoteRequired": "<quoteRequired>",
+            "productFindingMethod": "<productFindingMethod>"
+          },
+          "itemPosition": "<itemPosition>",
+          "price": {
+            "sellingPrice": "<sellingPrice>",
+            "basePrice": "<basePrice>"
+          },
+          "isDisplayed": "<isDisplayed>",
+          "itemListType": "<itemListType>"
+        }
+      ],
       "itemListType": "<itemListType>",
-      "item": {[
-        "productInfo": {
-          "sku": "<sku>",
-          "productID": "<productID>",
-          "productImage": "<productImage>",
-          "brand": "<brand>",
-          "inventoryStatus": "<inventoryStatus>",
-          "productFindingMethod": "<productFindingMethod>",
-          "moqRequired": "<moqRequired>",
-          “promoPricing”: “<promoPricing>”,
-          "priceChange": "<priceChange>"
-        },
-        "itemPosition": "<itemPosition>"
-      ]}
+      "resultsCount": "<resultsCount>",
+      "resultsShown": "<resultsShown>"
     }
   }
 });
@@ -59,25 +68,28 @@ appEventData.push({
 --- 
 
 #Variable Definition
-| field                    | type    | description                                                                                                                                                                                                                                                  | examples                                                                                                                                                                             |
-| :----------------------- | :------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **searchTermEntered**    | string  | Describes the search keyword exactly as entered by the user.                                                                                                                                                                                                 | red lobster,red lboster,red lbstr. Zip code if search is for a retail/physical location                                                                                              |
-| **searchMethod**         | string  | Describes the method of search.                                                                                                                                                                                                                              | Example values: - global (primary header search) - category:\[category name\] (if the visitor uses a search category in the global search)- search within - retailer- direct product |
-| **resultsCount**         | integer | The total number of items returned that matched the search criteria. (Integer)                                                                                                                                                                               | 0, 20, 110, 165                                                                                                                                                                      |
-| **resultsShown**         | integer | The number of items presented. Used with pagination, map, or lazyload UX. (Integer)                                                                                                                                                                          | 0, 5, 16, 32                                                                                                                                                                         |
-| **sku**                  | string  | Stock Keeping Unit (SKU) Unique Identifier of specific item (typically) held in inventory. Must match the format of back-end systems if used as a key for import of product meta data. Most often, one level below productID for products with SKU variants. | 34567890, 4567890, 00155-large-cornflower                                                                                                                                            |
-| **itemListType**         | string  | Indicates the presentation type for displaying products/items. Note that values here might closely mirror the Cart Type (addType) seen in the “Product Added” event specification.                                                                           | List types could include: - product listing (i.e. this is plp when browsing) - search results - product comparison - products demonstrated - related items - supported items         |
-| **itemPosition**         | integer | Integer position of a property within a sorted result. The first returned is position 1. For map results, this value can be the rank by distance from POI.                                                                                                   | 1, 2, 3, 4, 5                                                                                                                                                                        |
-| **productID**            | string  | Unique Identifier of a product or offering. Must match the format of back-end systems if used as a key for import of product meta data. Most often, one level above SKU for products with SKU variants.                                                      | 155, 65588, 987764448                                                                                                                                                                |
-| **productImage**         |         |                                                                                                                                                                                                                                                              |                                                                                                                                                                                      |
-| **refinementType**       | string  | Describes the parameter or facet of the refinement being applied.                                                                                                                                                                                            | brand, size, rating, color                                                                                                                                                           |
-| **refinementValue**      | string  | Provides the value for the parameter or facet of the refinement being applied.                                                                                                                                                                               | Coors, L, M, S 3-5, Red                                                                                                                                                              |
-| **sortSequence**         | integer | Integer number representing the dominance of a sort operator in a multi-sort scenario (sort by this, then that)                                                                                                                                              | 1, 2, 3, 4                                                                                                                                                                           |
-| **productFindingMethod** | string  |                                                                                                                                                                                                                                                              | Knowledge Hub - Catalog, Knowledge Hub - Success Stories, Direct Search, bookmarked                                                                                                  |
-| **moqRequired**          | string  | Set with a value of "yes" or "no" when a product is added to cart.                                                                                                                                                                                           | yes OR no                                                                                                                                                                            |
-| **brand**                | string  | Set with the brand of the product                                                                                                                                                                                                                            | krylon                                                                                                                                                                               |
-| **supplierInventory**    | string  | Set with “supplier inventory” or “other”                                                                                                                                                                                                                     | supplier inventory                                                                                                                                                                   |
-| **impressionType**       | string  | Set with: Browse, Search, Brand Page, Best Sellers, Recommendations                                                                                                                                                                                          |                                                                                                                                                                                      |
-| **promoPricing**         | string  | A flag representing if the product is currently seen or purchased at a promotional price.                                                                                                                                                                    | yes, no                                                                                                                                                                              |
-| **priceChange**          | string  | With the 2025 conversion initiative, this is a dedicated field in place to indicate those products which are subject to that pricing initiative - the desired example field should be the month and year for the permanent price change                      | April2025, May2025, January2026                                                                                                                                                      |
-
+| field                        | type            | description                                                                              | examples                                                              |
+| :--------------------------- | :-------------- | :--------------------------------------------------------------------------------------- | :-------------------------------------------------------------------- |
+| **pageNum**                  | integer         | The current page number of results (pagination).                                         | `1`, `2`, `3`                                                         |
+| **searchTermEntered**        | string          | Search keyword exactly as entered by the user.                                           | `test`, `red lobster`, `90210`                        |
+| **searchMethod**             | string          | Method of search.                                                                        | `global`, `search within`, `direct product`, `retailer` ( |
+| **refinementType**           | string          | The facet/parameter being refined.                                                       | `brand`, `size`, `rating`, `color`                      |
+| **refinementValue**          | string          | The selected value for the refinement.                                                   | `HYDAC`, `L`, `3-5`, `Red`                             |
+| **sortView**                 | string          | UI presentation for results.                                                             | `List`, `Grid`                                                        |
+| **sortSequence**             | integer         | Sort priority in multi-sort scenarios (sort by X then Y).                                | `1`, `2`, `3`                                      |
+| **resultsCount**             | integer         | Total number of items matching the criteria.                                             | `0`, `20`, `56504`                                      |
+| **resultsShown**             | integer         | Number of items shown in the current view/page (pagination / lazyload).                  | `0`, `24`, `32`                                      |
+| **itemListType**             | string          | Presentation/type of listing context.                                                    | `ITEM_LIST`, `search results`, `product listing`       |
+| **itemPosition**             | integer         | Rank/position of the item within the returned list (1-indexed).                          | `1`, `2`, `24`                                      |
+| **sku**                      | string          | SKU unique identifier (often one level below productID for variant SKUs).                | `02292353`, `00155-large-cornflower`                                  |
+| **productID**                | string          | Product identifier (often one level above SKU).                                          | `02292353`, `155`, `987764448`                                        |
+| **brand**                    | string          | Brand of the product.                                                                    | `HYDAC`, `SKF`                                                        |
+| **inventoryStatus**          | string          | Inventory status descriptor for the item.                                                | `in-stock-no-detail`, `out-of-stock`                                  |
+| **productImage**             | string/boolean  | Flag indicating whether an image is present for the product.                             | `"true"`, `"false"`, `true`, `false`                                  |
+| **productFindingMethod**     | string          | How the product was found/returned (source/channel).                                     | `Internal Search`, `Direct Search`, `bookmarked`                      |
+| **promoPricing**             | string          | Flag representing if product is currently at a promotional price.                        | `yes`, `no`                                                           |
+| **specialPricingInitiative** | string/boolean  | Flag indicating if product is part of a special pricing initiative (site-specific flag). | `"true"`, `"false"`                                                   |
+| **quoteRequired**            | string          | Flag indicating if quote is required for purchase.                                       | `yes`, `no`                                                           |
+| **sellingPrice**             | string/number   | Current selling price displayed for the product.                                         | `42.32`, `6605.02`                                                    |
+| **basePrice**                | string/number   | Base/reference price displayed for the product.                                          | `42.32`, `6605.02`                                                    |
+| **isDisplayed**              | integer/boolean | Flag indicating item is displayed in the UI result set.                                  | `1`, `0`, `true`, `false`                                             |
