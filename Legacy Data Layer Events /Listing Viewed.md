@@ -1,20 +1,24 @@
 # Listing Viewed
 
-The listing viewed event will be used to gather information about the listing of several types of data, including:
-Search results:
+The **Listing Viewed** event captures information about a product listing page (search results, browse results, brand pages, category pages, etc.).
 
-Redirected search - direct product search
-Product impressions (by type - supporting items, )
-Brand Pages
-PLP Browse
-Search Within Results
+This event includes:
 
+- Search context (term + method)
+- Suggested search terms (if applicable)
+- Applied refinements (facets)
+- Sort configuration
+- Pagination context
+- Total results + results shown
+- Product impression data for each item returned
 
 ---
 
-```js
-window.appEventData = window.appEventData || [];
-window.appEventData.push({
+## Event Specification
+
+```javascript
+appEventData = window.appEventData || [];
+appEventData.push({
   "event": "Listing Viewed",
   "listing": {
     "listingParams": {
@@ -28,6 +32,11 @@ window.appEventData.push({
         "searchMethod": "<searchMethod>",
         "searchTermEntered": "<searchTermEntered>"
       },
+      "suggestedTerms": [
+        {
+          "term": "<term>"
+        }
+      ],
       "sorts": {
         "sortView": "<sortView>",
         "sortSequence": "<sortSequence>"
@@ -64,32 +73,32 @@ window.appEventData.push({
   }
 });
 ```
-
 --- 
 
 #Variable Definition
-| field                        | type            | description                                                                              | examples                                                              |
-| :--------------------------- | :-------------- | :--------------------------------------------------------------------------------------- | :-------------------------------------------------------------------- |
-| **pageNum**                  | integer         | The current page number of results (pagination).                                         | `1`, `2`, `3`                                                         |
-| **searchTermEntered**        | string          | Search keyword exactly as entered by the user.                                           | `test`, `red lobster`, `90210`                        |
-| **searchMethod**             | string          | Method of search.                                                                        | `global`, `search within`, `direct product`, `retailer` ( |
-| **refinementType**           | string          | The facet/parameter being refined.                                                       | `brand`, `size`, `rating`, `color`                      |
-| **refinementValue**          | string          | The selected value for the refinement.                                                   | `HYDAC`, `L`, `3-5`, `Red`                             |
-| **sortView**                 | string          | UI presentation for results.                                                             | `List`, `Grid`                                                        |
-| **sortSequence**             | integer         | Sort priority in multi-sort scenarios (sort by X then Y).                                | `1`, `2`, `3`                                      |
-| **resultsCount**             | integer         | Total number of items matching the criteria.                                             | `0`, `20`, `56504`                                      |
-| **resultsShown**             | integer         | Number of items shown in the current view/page (pagination / lazyload).                  | `0`, `24`, `32`                                      |
-| **itemListType**             | string          | Presentation/type of listing context.                                                    | `ITEM_LIST`, `search results`, `product listing`       |
-| **itemPosition**             | integer         | Rank/position of the item within the returned list (1-indexed).                          | `1`, `2`, `24`                                      |
-| **sku**                      | string          | SKU unique identifier (often one level below productID for variant SKUs).                | `02292353`, `00155-large-cornflower`                                  |
-| **productID**                | string          | Product identifier (often one level above SKU).                                          | `02292353`, `155`, `987764448`                                        |
-| **brand**                    | string          | Brand of the product.                                                                    | `HYDAC`, `SKF`                                                        |
-| **inventoryStatus**          | string          | Inventory status descriptor for the item.                                                | `in-stock-no-detail`, `out-of-stock`                                  |
-| **productImage**             | string/boolean  | Flag indicating whether an image is present for the product.                             | `"true"`, `"false"`, `true`, `false`                                  |
-| **productFindingMethod**     | string          | How the product was found/returned (source/channel).                                     | `Internal Search`, `Direct Search`, `bookmarked`                      |
-| **promoPricing**             | string          | Flag representing if product is currently at a promotional price.                        | `yes`, `no`                                                           |
-| **specialPricingInitiative** | string/boolean  | Flag indicating if product is part of a special pricing initiative (site-specific flag). | `"true"`, `"false"`                                                   |
-| **quoteRequired**            | string          | Flag indicating if quote is required for purchase.                                       | `yes`, `no`                                                           |
-| **sellingPrice**             | string/number   | Current selling price displayed for the product.                                         | `42.32`, `6605.02`                                                    |
-| **basePrice**                | string/number   | Base/reference price displayed for the product.                                          | `42.32`, `6605.02`                                                    |
-| **isDisplayed**              | integer/boolean | Flag indicating item is displayed in the UI result set.                                  | `1`, `0`, `true`, `false`                                             |
+| Field                        | Type            | Description                                                                                                     | Example                                                 |
+| ---------------------------- | --------------- | --------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
+| **pageNum**                  | integer         | Current page number of the listing results.                                                                     | `1`, `2`, `3`                                           |
+| **searchTermEntered**        | string          | The search keyword exactly as entered by the user.                                                              | `test`, `hydraulic pump`, `90210`                       |
+| **searchMethod**             | string          | Method used to perform the search.                                                                              | `global`, `search within`, `direct product`, `retailer` |
+| **term**                     | string          | Suggested alternative search term presented to the user when no results or low-confidence results are returned. | `hydraulic pumps`, `hydrualic pump`, `pump hydraulic`   |
+| **refinementType**           | string          | The facet or filter category applied.                                                                           | `brand`, `size`, `rating`, `color`                      |
+| **refinementValue**          | string          | The selected value for the applied refinement.                                                                  | `HYDAC`, `Large`, `3-5`, `Red`                          |
+| **sortView**                 | string          | UI presentation format of results.                                                                              | `List`, `Grid`                                          |
+| **sortSequence**             | integer         | Sort priority when multiple sorts are applied.                                                                  | `1`, `2`, `3`                                           |
+| **resultsCount**             | integer         | Total number of results matching search/refinements.                                                            | `56504`, `120`, `0`                                     |
+| **resultsShown**             | integer         | Number of results displayed on the current page/view.                                                           | `24`, `32`                                              |
+| **itemListType**             | string          | Context/type of listing page.                                                                                   | `ITEM_LIST`, `search results`, `category listing`       |
+| **itemPosition**             | integer         | Position of the product in the listing (1-indexed).                                                             | `1`, `2`, `24`                                          |
+| **sku**                      | string          | Unique SKU identifier for the product.                                                                          | `02292353`                                              |
+| **productID**                | string          | Product-level identifier (may match SKU depending on implementation).                                           | `02292353`, `987764448`                                 |
+| **brand**                    | string          | Brand name of the product.                                                                                      | `HYDAC`, `SKF`, `Proto Tools`                           |
+| **inventoryStatus**          | string          | Inventory availability descriptor.                                                                              | `in-stock-no-detail`, `out-of-stock`                    |
+| **productImage**             | string/boolean  | Indicates whether the product has an image available.                                                           | `"true"`, `"false"`, `true`, `false`                    |
+| **productFindingMethod**     | string          | Method through which the product was surfaced.                                                                  | `Internal Search`, `Direct Search`, `Navigation`        |
+| **promoPricing**             | string          | Indicates if promotional pricing is active.                                                                     | `yes`, `no`                                             |
+| **specialPricingInitiative** | string/boolean  | Indicates if the product is part of a pricing initiative.                                                       | `"true"`, `"false"`                                     |
+| **quoteRequired**            | string          | Indicates if product requires a quote to purchase.                                                              | `yes`, `no`                                             |
+| **sellingPrice**             | string/number   | Displayed selling price of the product.                                                                         | `42.32`, `6605.02`                                      |
+| **basePrice**                | string/number   | Reference/base price of the product.                                                                            | `42.32`, `6605.02`                                      |
+| **isDisplayed**              | integer/boolean | Indicates whether the item is rendered in the listing UI.                                                       | `1`, `0`, `true`, `false`                               |
