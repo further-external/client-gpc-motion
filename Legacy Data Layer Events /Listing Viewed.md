@@ -37,7 +37,7 @@ appEventData.push({
       "resultsCount": "<resultsCount>",
       "resultsShown": "<resultsShown>",
       "itemListType": "<itemListType>",
-      "item": {
+      "item": {[
         "productInfo": {
           "sku": "<sku>",
           "productID": "<productID>",
@@ -46,6 +46,14 @@ appEventData.push({
           "inventoryStatus": "<inventoryStatus>",
           "productFindingMethod": "<productFindingMethod>",
           "moqRequired": "<moqRequired>",
+          “promoPricing”: “<promoPricing>”,
+          "priceChange": "<priceChange>"
+        },
+        "itemPosition": "<itemPosition>"
+      ]}
+    }
+  }
+});
 ```
 
 --- 
