@@ -13,8 +13,8 @@ Search Within Results
 ---
 
 ```js
-appEventData = window.appEventData || [];
-appEventData.push({
+window.appEventData = window.appEventData || [];
+window.appEventData.push({
   "event": "Listing Viewed",
   "listing": {
     "listingParams": {
