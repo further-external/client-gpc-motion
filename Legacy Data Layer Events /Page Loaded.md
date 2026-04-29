@@ -22,7 +22,7 @@ This event is set as soon as the information contained within is available to th
 ```javascript
 window.adobeDataLayer = window.adobeDataLayer || [];
 window.appEventData.push({
-  "event": "Page Load Started",
+  "event": "Page Loaded",
   "page": {
     "pageCategory": "<pageCategory>",
     "pageType": "<pageType>",
