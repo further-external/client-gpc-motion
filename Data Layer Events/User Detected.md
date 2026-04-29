@@ -16,6 +16,7 @@ appEventData.push({
     "userKey": "<userKey>",
     "branchID": "<branchID>",
     "industry": "<industry>",
+    "testGroup": "<testGroup>",
     "jobFunction": "<jobFunction>"
   }
 });
@@ -32,4 +33,5 @@ appEventData.push({
 | **userKey** | string | Unique identifier of a user. Any ids considered PII must be hashed. | ABC1234 |
 | **branchID** | string | Unique identifier of a branch/location. Any id's considered PII must be hashed. | 44556677 |
 | **industry** | string | Unique identifier for the visitor industry necessary for vendor personalization | |
+| **testGroup** | string | Identifier of a user's test group | |
 | **jobFunction** | string | Unique identifier for the visitor job function necessary for vendor personalization | |
