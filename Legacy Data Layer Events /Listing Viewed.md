@@ -72,6 +72,7 @@ window.appEventData.push({
 | **sortView** | string | The option type of how to view the sorted listing| List, Grid |
 | **resultsCount** | integer | The total number of items returned that matched the search criteria. | 0, 20, 110, 165 |
 | **resultsShown** | integer | The number of items presented. Used with pagination, map, or lazyload UX. | 0, 5, 16, 32 |
+| **isDisplayed** | integer | indicates whether a specific element, component, or content is currently visible to the user on the page| 1(true) or 0(false) |
 | **itemListType** | string | Indicates the presentation type for displaying products/items. | product listing, search results, product comparison, products demonstrated, related items, supported items |
 | **itemPosition** | integer | Integer position of a property within a sorted result. The first returned is position 1. | 1, 2, 3, 4, 5 |
 | **sellingPrice** | string | This should be added as the price for the product including the discount amount. | 97.88, 805.09 |
