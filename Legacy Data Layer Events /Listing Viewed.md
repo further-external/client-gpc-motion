@@ -68,8 +68,8 @@ window.appEventData.push({
 | **searchMethod** | string | Describes the method of search. | global (primary header search), category:[category name], search within, retailer, direct product |
 | **refinementType** | string | Describes the parameter or facet of the refinement being applied. | brand, size, rating, color |
 | **refinementValue** | string | Provides the value for the parameter or facet of the refinement being applied. | Coors, L, M, S 3-5, Red |
-| **sortSequence** | string | Not defined in the newer Listing Clicked specification. Legacy field used for sort order or sequence. |  |
-| **sortView** | string | Not defined in the newer Listing Clicked specification. Legacy field used for selected sort view. |  |
+| **sortSequence** | string | The sorting option selected by the user. | Best Match, MFR #: Low to High, MFR #: High to Low |
+| **sortView** | string | The option type of how to view the sorted listing| List, Grid |
 | **resultsCount** | integer | The total number of items returned that matched the search criteria. | 0, 20, 110, 165 |
 | **resultsShown** | integer | The number of items presented. Used with pagination, map, or lazyload UX. | 0, 5, 16, 32 |
 | **itemListType** | string | Indicates the presentation type for displaying products/items. | product listing, search results, product comparison, products demonstrated, related items, supported items |
