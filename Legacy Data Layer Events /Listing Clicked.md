@@ -16,10 +16,10 @@ window.appEventData.push({
         "searchTermEntered": "<searchTermEntered>",
         "searchMethod": "<searchMethod>"
       },
-      "refinements": {
+      "refinements": {[
         "refinementType": "<refinementType>",
         "refinementValue": "<refinementValue>"
-      },
+      ]},
       "sorts": {
         "sortSequence": "<sortSequence>",
         "sortView": "<sortView>",
