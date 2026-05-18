@@ -1,6 +1,6 @@
 # Listing Clicked
 
-When a listing item is clicked, the following information will want to be known for the individual item that was clicked. An item is considered “clicked” when the add to cart button is clicked or the visitor clicks through to PDP.
+When a listing item is clicked, the following information will want to be known for the individual item that was clicked. An item is considered “clicked” when the visitor clicks an item to get through to the PDP.
 
 ---
 
