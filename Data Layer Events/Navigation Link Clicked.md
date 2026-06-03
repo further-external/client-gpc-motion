@@ -40,4 +40,4 @@ window.appEventData.push({
 | **linkContainer** | string | Indicates the container for a clicked link within the hierarchy [Page > Region > Container > linkID] | Best Friends - Best Jeans, Puppy Love, Mens, Kids, Kids : Tops |
 | **linkCategory** | string | Indicates the Product category for a clicked link within the hierarchy [Page > Region > Container > Category > linkID] | Abrasives, Bearings, Electrical, etc. |
 | **linkId** | string | Unique ID of a clicked link within the hierarchy [Page > Region > Container > linkID] | sign up today, sign in, jeans, sweaters, donate |
-| **linkUrl**| string  | Destination URL of a click element.| `/category/hydraulics`, `/quote`, `https://external.com`|
+| **linkUrl**| string  | Destination URL of a clicked element.| `/category/hydraulics`, `/quote`, `https://external.com`|
