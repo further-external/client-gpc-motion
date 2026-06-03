@@ -7,7 +7,7 @@ The different values within this event can be used as needed. Using the data her
 - View/Upload Tax Documents/Certificates
 - Navigation menu clicks
 
-For the header Redesign this will apply to most elements found in the following menus:
+For the Header redesign this will apply to most elements found in the following menus:
 - Services
 - Resources
 - Account Menu
