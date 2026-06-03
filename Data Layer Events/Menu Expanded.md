@@ -4,7 +4,7 @@ This event fires when a user clicks on a top-level navigation category tab (e.g.
 ## Javascript Code
 ```javascript
 window.appEventData = window.appEventData || [];
-appEventData.push({
+window.appEventData.push({
   "event": "Menu Expanded",
   "linkInfo": {
     "linkContainer": "<linkContainer>",
