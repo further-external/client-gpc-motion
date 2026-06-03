@@ -7,8 +7,8 @@ This event will fire when a visitor changes the site language.
 ## Javascript Code
 
 ```javascript
-appEventData || [];
-appEventData.push({
+window.appEventData = window.appEventData || [];
+window.appEventData.push({
   "event": "Language Change",
   "languageChange": {
     "siteLanguage": "<language>"
