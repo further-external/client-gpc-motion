@@ -57,8 +57,6 @@ appEventData.push({
 
 ## Variable Definition
 
-Here's the table with the Required column removed:
-
 | Variable | Type | Description | Example |
 |---|---|---|---|
 | `transaction.transactionID` | string | Unique order ID, 6–20 alphanumeric; key for post-transaction data upload | `0001582610` |
