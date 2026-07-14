@@ -1,4 +1,7 @@
+# User Signed In
+The event should fire whenever a user successfully signs in to their account.
 
+## Javascript Code
 ```javascript
 window.appEventData = window.appEventData || [];
 appEventData.push({
@@ -12,7 +15,7 @@ appEventData.push({
   }
 });
 ```
-
+## Variable Definition
 | Variable | Type | Required | Description | Example |
 |---|---|---|---|---|
 | `user.loginStatus` | string | Yes | `logged in` | Auth service on successful sign-in |
