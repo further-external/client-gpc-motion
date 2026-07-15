@@ -45,8 +45,6 @@ appEventData.push({
 | `product[].productInfo.productFindingVideo` | string | Video name when PDP reached from a video page| `Eaton - MiHow2 - Hydraulic Sequencing Circuit` |
 | `product[].productInfo.quoteRequired` | string | `"yes"`/`"no"`| `no` |
 | `product[].productInfo.promoPricing` | string | `"yes"`/`"no"`| `no` |
-| `product[].productInfo.specialPricingInitiative` | string | Closest newer match: specialPricingCampaign. Friendly name of special pricing event.`false`| `false` |
+| `product[].productInfo.specialPricingInitiative` | string | Special pricing flag; explicit fallback `false`| `false` |
 | `product[].price.basePrice` | string | MSRP | `55.60` |
 | `product[].price.sellingPrice` | string | Discounted price| `34.22` |
-
-Two rows had "Conditional" as their Required value (`productSearchPhrase` and `productFindingVideo`) — that's dropped, though their descriptions already convey the conditions.
