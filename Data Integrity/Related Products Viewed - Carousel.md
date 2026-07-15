@@ -1,6 +1,6 @@
 # Related Products Viewed - Carousel
 
-Canonical production name adopted (prior spec: "Related Products Viewed"). Fires when related/recommended product cards render, including on carousel cycling.
+Fires when related/recommended product cards render, including on carousel cycling.
 
 ## Javascript Code
 ```javascript
