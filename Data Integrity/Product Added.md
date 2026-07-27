@@ -47,6 +47,6 @@ appEventData.push({
 | `product[].productInfo.cartThreshold` | string | when cart threshold is reached by a visitor changing the quantity of a product on PDP, PLP or the Cart.| `0`,`1`,`2` |
 | `product[].price.basePrice` | string | MSRP `"0"` fallback on quote-required items | `0` |
 | `product[].price.sellingPrice` | string | Discounted price | `0` |
-| `product[].quantity` | string | Units added For MOQ products added below MOQ from a listing, reflect actual added quantity (legacy MOQ showstopper) | `1` |
+| `product[].quantity` | string | Units added. For MOQ products added below the MOQ from a listing, reflects the actual quantity added | `1` |
 | `product[].addType` | string | Add context: `product detail`, `search results`, `product listing`, `related items`, `previous order`, `saved list`, `cart save for later`, etc. | `search results` |
-| `product[].daysSaved` | string | Days in Save For Later before re-add (T-3); only when moved from Save For Later | `3` |
+| `product[].daysSaved` | string | Days in Save For Later before re-add; only when moved from Save For Later | `3` |
