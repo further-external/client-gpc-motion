@@ -53,7 +53,7 @@ appEventData.push({
 | `transaction.item[].productInfo.productID` | string | Unique product identifier | `10484964` |
 | `transaction.item[].productInfo.brand` | string | Product brand | `SUMITOMO DRIVE TECH` |
 | `transaction.item[].productInfo.inventoryStatus` | string | Inventory status | `not-in-stock` |
-| `transaction.item[].productInfo.promoPricing` | string | `"yes"`/`"no"` (T-6) | `no` |
+| `transaction.item[].productInfo.promoPricing` | string | `"yes"`/`"no"` | `no` |
 | `transaction.item[].productInfo.specialPricingInitiative` | string | Explicit fallback `false` | `false` |
 | `transaction.item[].price.basePrice` | string | If the base price information is available provide it else `"0"` on unpriced quote items | `21.50`,`0` |
 | `transaction.item[].price.sellingPrice` | string | If the selling price information is available provide it else `"0"` on unpriced quote items | `21.50`, `0` |
