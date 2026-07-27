@@ -82,5 +82,5 @@ appEventData.push({
 | `transaction.item[].productInfo.specialPricingInitiative` | string | Explicit fallback `false` | `false` |
 | `transaction.item[].price.basePrice` | string | MSRP; unformatted, ≤2 decimals, `"0"` fallback| `26.64` |
 | `transaction.item[].price.sellingPrice` | string | Price paid after discounts | `16.14` |
-| `transaction.item[].quantity` | string | Units purchased . | `1` |
+| `transaction.item[].quantity` | string | Units purchased | `1` |
 | `transaction.item[].moq` | string | `true` if the product's MOQ has not been met  | `true` |
