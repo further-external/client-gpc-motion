@@ -43,8 +43,8 @@ appEventData.push({
 | `product[].productInfo.quoteRequired` | string | `"yes"`/`"no"`| `no` |
 | `product[].productInfo.productFindingVideo` | string | Video name if saved from a video context. | `Eaton - MiHow2 - Hydraulic Sequencing Circuit`|
 | `product[].productInfo.promoPricing` | string | `"yes"`/`"no"` | `no` |
-| `product[].productInfo.specialPricingInitiative` | boolean | Explicit fallback `false` | `false` |
+| `product[].productInfo.specialPricingInitiative` | string | Explicit fallback `false` | `false` |
 | `product[].productInfo.cartThreshold` | string | Will provide details on if the threshold between cart add and request a quote has been met | `add to cart`, `Requste a quote` |
 | `product[].price.basePrice` | string | MSRP | `1764.02` |
 | `product[].price.sellingPrice` | string | Discounted price. | `820.47` |
-| `product[].quantity` | integer | Units saved. | `1` |
+| `product[].quantity` | string | Units saved | `1` |
