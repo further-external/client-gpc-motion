@@ -27,7 +27,7 @@ appEventData.push({
       "resultsShown": "<resultsShown>",
       "itemListType": "<itemListType>",
       "item": [{
-        "itemPosition": "<itemPosition>",
+        "itemPosition": <itemPosition>,
         "productInfo": {
           "sku": "<sku>",
           "productID": "<productID>",
@@ -61,7 +61,7 @@ appEventData.push({
 | `listing.listingResults.resultsCount` | string | Total matching items. | `4` |
 | `listing.listingResults.resultsShown` | string | Items rendered | `4` |
 | `listing.listingResults.itemListType` | string | List type of the clicked item's widget | `You May Also Like` |
-| `listing.listingResults.item[].itemPosition` | string | 1-based position of the clicked item | `3` |
+| `listing.listingResults.item[].itemPosition` | integer | 1-based position of the clicked item | `3` |
 | `listing.listingResults.item[].productInfo.sku` | string | SKU of clicked item | `04225797` |
 | `listing.listingResults.item[].productInfo.productID` | string | Unique product identifier | `04225797` |
 | `listing.listingResults.item[].productInfo.brand` | string | Product brand | `SKF` |
