@@ -21,10 +21,11 @@ Implement the following snippet within your event listener to push the data to t
 window.appEventData = window.appEventData || [];
 window.appEventData.push({
   "event": "Branch Link Clicked",
-  "branchLink": {
+  "linkInfo": {
     "linkType": "<linkType>",
     "linkText": "<linkText>",
-    "contactInfo": "<contactInfo>"
+    "contactTarget": "<contactTarget>",
+    "branchId": "<branchId>"
   }
 });
 ```
@@ -37,5 +38,6 @@ window.appEventData.push({
 | :--- | :--- | :--- | :--- |
 | **linkType** | `string` | Indicates the specific category of link clicked. | Email, Phone Number |
 | **linkText** | `string` | The actual text or label displayed on the link. | Email Branch, Email Rep, tel: |
-| **contactInfo** | `string` | The hashed phone number or email address associated with the link. | (123)-456-7890, email123@email.com |
+| **contactTarget** | `string` | Indicates which entity the contact link is associated with the branch itself or the assigned account rep independent of whether the contact method is email or phone | Branch, Rep |
+| **branchId** | `string` | Unique identifier for the branch or location associated with the contact link, used to join with branch | AL98 - Birmingham|
 
