@@ -1,5 +1,18 @@
 # Listing Clicked
 
+> **Status:** Current — Adobe Analytics Package 2
+> **Contract validated:** 2026-09-02/03 on production beacons · 17 event families, 0 contract failures
+> **Last updated:** 2026-09-16 — Package 2 field renames applied
+>
+> | From | To | Why |
+> |---|---|---|
+> | `productID` | `productId` | Package 2 rename — camelCase standardised across product fields |
+> | `promoPricing` | `promotionalPricing` | Package 2 rename — full word, matches the SDR friendly name |
+> | `moq` | `minimumPurchaseQuantityNotMet` | Package 2 rename — explicit name replaces the `moq` abbreviation |
+> | `"yes"/"no"`, `"true"/"false"`, `"Y"/"N"` | `"TRUE"`/`"FALSE"` | Package 2 ruled these string booleans uppercase |
+>
+> Only fields present on this page are listed. See the repository README for the full Package 2 change set.
+
 When a listing item is clicked, the following information will want to be known for the individual item that was clicked. An item is considered “clicked” when the add to cart button is clicked or the visitor clicks through to PDP.
 
 ---
@@ -28,17 +41,17 @@ appEventData.push({
         "fullFindingMethod": "<productFindingMethod>|<itemListType>",
         "inventoryStatus": "<inventoryStatus>",
         "isOutOfStock": "<isOutOfStock>",
-        "moq": "<moq>",
+        "minimumPurchaseQuantityNotMet": "<minimumPurchaseQuantityNotMet>",
         "moqRequired": "<moqRequired>",
         "name": "<name>",
         "productFindingMethod": "<productFindingMethod>",
         "productFindingVideo": "<productFindingVideo>",
-        "productID": "<productID>",
+        "productId": "<productId>",
         "productImage": "<productImage>",
         "productSearch": "<productSearch>",
         "productSearchPhrase": "<productSearchPhrase>",
         "productTabs": "<productTabs>",
-        "promoPricing": "<promoPricing>",
+        "promotionalPricing": "<promotionalPricing>",
         "quantity": "<quantity>",
         "quoteRequired": "<quoteRequired>",
         "sku": "<sku>",
@@ -74,19 +87,19 @@ appEventData.push({
 | **isOutOfStock** | boolean | Flag that indicates whether a product is out of stock or no longer available | true, false |
 | **itemListType** | string | Indicates the presentation type for displaying products/items. Note that values here might closely mirror the Cart Type (addType) seen in the “Product Added” event specification. | product listing (i.e. this is plp when browsing), search results, product comparison, products demonstrated, related items, supported items |
 | **itemPosition** | integer | Integer position of a property within a sorted result. The first returned is position 1. For map results, this value can be the rank by distance from POI. | 1, 2, 3, 4, 5 |
-| **moq** | string | Set with a value of “true” if the product’s minimum order quantity has not been met. Otherwise, this is set to “false”. | |
-| **moqRequired** | string | Set with a value of "yes" or "no" when a product is added to cart. | yes -OR- no |
-| **name** | string | Name of the product or offering. Should be unique and 1:1 with productID | Oceana, Corsica, Flame Tech, Air Jordan 88 |
+| **minimumPurchaseQuantityNotMet** | string | Set with a value of “true” if the product’s minimum order quantity has not been met. Otherwise, this is set to “false”. | |
+| **moqRequired** | string | Set with a value of "TRUE" or "FALSE" when a product is added to cart. | TRUE -OR- FALSE |
+| **name** | string | Name of the product or offering. Should be unique and 1:1 with productId | Oceana, Corsica, Flame Tech, Air Jordan 88 |
 | **productFindingMethod** | string | This will identify the finding method for the product | Knowledge Hub - Catalog, Knowledge Hub - Success Stories, Direct Search, bookmarked |
 | **productFindingVideo** | string | If a product detail page is viewed after clicking through from a video page, the name of the video will be set here. | Eaton - MiHow2 - Steps Necessary to Effectively Set Up a Hydraulic Sequencing Circuit |
-| **productID** | string | Unique Identifier of a product or offering. Must match the format of back-end systems if used as a key for import of product meta data. Most often, one level above SKU for products with SKU variants. | 15, 565, 588, 987, 764, 400 |
+| **productId** | string | Unique Identifier of a product or offering. Must match the format of back-end systems if used as a key for import of product meta data. Most often, one level above SKU for products with SKU variants. | 15, 565, 588, 987, 764, 400 |
 | **productImage** | string | If an image is present for a product, a unique image identifier should be present here | |
 | **productSearch** | string | Set with a value of “true” if the product view is the result of a site search landing directly on a product detail page. Otherwise, this is set to “false”. | |
 | **productSearchPhrase** | string | Describes the search keyword exactly as entered by the user. | red lobster, red lboster, red lbstr, Zip code if search is for a retail/physical location |
 | **productTabs** | string | Delimited list of the tabs available for the product on the current product detail page. | overview~specifications~msds |
-| **promoPricing** | string | A flag representing if the product is currently seen or purchased at a promotional price. | yes, no |
+| **promotionalPricing** | string | A flag representing if the product is currently seen or purchased at a promotional price. | TRUE, FALSE |
 | **quantity** | integer | Integer number of products being acted upon (added to a cart, removed from wishlist, purchased, reserved, moved to a cart from save for later or save to list) | 1, 2, 3, 4, 5 |
-| **quoteRequired** | string | Set with a value of "yes" or "no" for each item when a cart is saved, saved to a list, or products are moved to a cart from a saved cart/list. | yes -OR- no |
+| **quoteRequired** | string | Set with a value of "TRUE" or "FALSE" for each item when a cart is saved, saved to a list, or products are moved to a cart from a saved cart/list. | TRUE -OR- FALSE |
 | **refinementType** | string | Describes the parameter or facet of the refinement being applied. | brand, size, rating, color |
 | **refinementValue** | string | Provides the value for the parameter or facet of the refinement being applied. | Coors, L, M, S 3-5, Red |
 | **resultsCount** | integer | The total number of items returned that matched the search criteria. (Integer) | 0, 20, 110, 165 |
@@ -100,4 +113,4 @@ appEventData.push({
 | **specialPricingFlag** | boolean | Boolean flag to track if special pricing is enabled. | “true”, “false” |
 | **supplierInventory** | string | Set with “supplier inventory” or “other” | supplier network |
 | **thresholdLocation** | string | Location where threshold change occurred | "pdp", "plp", "cart", "best sellers", "recommended items", etc. |
-| **thresholdType** | string | Threshold type reached by visitor | "moq” OR “mtq” |
+| **thresholdType** | string | Threshold type reached by visitor | "minimumPurchaseQuantityNotMet” OR “mtq” |
