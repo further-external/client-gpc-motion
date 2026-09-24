@@ -12,6 +12,42 @@
 > | `"yes"/"no"`, `"true"/"false"`, `"Y"/"N"` | `"TRUE"`/`"FALSE"` | Package 2 ruled these string booleans uppercase |
 >
 > Only fields present on this page are listed. See the repository README for the full Package 2 change set.
+>
+> ---
+>
+> **2026-09-24 — `findingWidget` / `findingPage` added.** Source: `further-adobe-changelog.md`,
+> Zack Miller 2026-09-17.
+>
+> ⚠️ **NOT IN PRODUCTION.** Zack: *"None of these are in production just yet, pending our own
+> internal QA testing and any necessary coordination with y'all."* The work ships in two phases:
+> **Part 1** adds the pair, **Part 2** removes the superseded field. **Part 2 has no release date.**
+>
+> Vocabulary: **Appendix A** of the changelog is a *closed* 35-value `findingWidget` set.
+> **`findingPage` introduces no new vocabulary** — it reuses the existing `pageType` values already
+> sent on Page Loaded (Appendix B), where `''` means the URL maps to no known page type.
+> 
+> 🔴 **THIS EVENT HAS NO DUAL-WRITE WINDOW.** It **gains** the pair and **loses**
+> `thresholdLocation` in the *same* change. No window exists where both are present, so validation
+> must happen in a lower environment.
+>
+> 🔴 **PAYLOAD SHAPE DISCREPANCY — needs confirming with Zack before build.** The changelog states the
+> pair are *"top-level siblings of `threshold`, not nested inside it"*, i.e. `product[].findingWidget`
+> with `threshold` retaining only `thresholdType`. **That matches Quote Threshold Reached, which uses
+> `product[].threshold.*` — but it does NOT match this page**, which carries every field flat inside
+> `thresholdReached.product[].productInfo.*` with no `threshold` object at all. The two threshold
+> events have divergent shapes today and the changelog describes only one of them. **Documented below
+> against this page's existing shape; confirm which shape ships.**
+>
+> 🔴 **Part 1 also revives this event on the cart quantity box.** Minimum-order-quantity and
+> minimum-transfer-quantity crossings from a cart stepper **never reached Adobe** — the dispatch was
+> wrapped in a debounce that was constructed but never invoked. Now fixed. **Historical data for that
+> surface is missing, not zero**, and the volume increase is a bug fix rather than a change in
+> customer behaviour. Requires an Adobe annotation.
+>
+> ⚠️ Note the coverage fix lands in **Part 1** even though the attributes do not change until Part 2,
+> so during a Part 1-only window the event fires with its existing payload including
+> `thresholdLocation`.
+
 
 Executed when a visitor changes the quantity of a product in the cart, resulting in one of the following:
 1. MOQ messaging displayed
@@ -58,6 +94,8 @@ appEventData.push({
         "specialPricingDiscountAmount": "<discount amount>",
         "specialPricingFlag": "<true || false>",
         "supplierInventory": "<supplierInventory>",
+        "findingWidget": "<findingWidget>",
+        "findingPage": "<findingPage>",
         "thresholdLocation": "<thresholdLocation>",
         "thresholdType": "<thresholdType>"
       },
@@ -103,5 +141,40 @@ appEventData.push({
 | **specialPricingDiscountAmount** | string | Discount difference amount based on the base price. | 0.65 |
 | **specialPricingFlag** | boolean | Boolean flag to track if special pricing is enabled. | “true”, “false” |
 | **supplierInventory** | string | Set with “supplier inventory” or “other” | supplier network |
-| **thresholdLocation** | string | Location where threshold change occurred | "pdp", "plp", "cart", "best sellers", "recommended items", etc. |
+| **findingWidget** | string | **Addition.** Widget or flow where the quantity change happened. Closed 35-value vocabulary, Appendix A of `further-adobe-changelog.md`. ⚠️ Payload path unconfirmed — see the shape discrepancy in the header | RESULTS_LIST, CART_FLYOUT, SUBSTITUTE_DIALOG_PRODUCTS |
+| **findingPage** | string | **Addition.** Page classification of the URL at the moment of the event. Reuses the existing `pageType` vocabulary unchanged, Appendix B | SHOPPING_CART, PRODUCT_DETAIL, `''` |
+| **thresholdLocation** | string | ⚠️ **PENDING REMOVAL — same change as the additions above, no dual-write window.** Superseded by findingWidget/findingPage. `'cart'`→DIRECT, `'pdp'`→DIRECT, `'plp'`→RESULTS_LIST, `'saved list'`→SAVED_LIST **or SUBSTITUTE_DIALOG_PRODUCTS (see correction below)**, `'Buy It Again'`→BUY_IT_AGAIN, `'cart flyout'`→CART_FLYOUT, `'cart overlay'`→CART_OVERLAY. Location where threshold change occurred | "pdp", "plp", "cart", "best sellers", "recommended items", etc. |
 | **thresholdType** | string | Threshold type reached by visitor | "minimumPurchaseQuantityNotMet” OR “mtq” |
+
+---
+
+## Part 1/2 notes for this event (2026-09-24)
+
+### 🔴 A correction, not a rename: substitute item cards were mislabeled
+
+The substitute item card **hardcoded `thresholdLocation: 'saved list'`** on the component. Those cards
+render only in the PDP out-of-stock dialog and the quick-order substitute dialog — **never in a
+saved-list flow.**
+
+**Every historical occurrence of `'saved list'` from this surface was mislabeled and must NOT be
+mapped forward to `SAVED_LIST`.** Correct attribution going forward is `SUBSTITUTE_DIALOG_PRODUCTS`.
+
+⚠️ **Historical `'saved list'` threshold volume is therefore a blend of two unrelated surfaces and
+cannot be cleanly split.** Going forward they separate cleanly; the history does not.
+
+### Five surfaces gain coverage that previously reported no location
+
+Saved-list "Add Items" search results → `SAVED_LIST` · asset-management product details →
+`ASSET_PROFILE` · compare dialog and compare page → `COMPARE_PRODUCTS` · SAYT recommended-product side
+buttons → `SEARCH_AS_YOU_TYPE` · any carousel-embedded stepper → *that carousel's widget*.
+
+### The cart-line stepper reports a different value here than on Product Added
+
+Bumping quantity in the mini-cart sends `CART_FLYOUT_QUANTITY_BOX` on **Product Added** but
+`CART_FLYOUT` on the **threshold** event from that same interaction. Intentional: the `*QUANTITY_BOX`
+values mark *how* an item was added, which is only meaningful on Product Added.
+
+### Three declared values never appeared on a threshold event
+
+`thresholdLocation` shared an enum with Listing Clicked, so `'CSN'`, `'Order History'` and `'Quotes'`
+were never threshold values.
