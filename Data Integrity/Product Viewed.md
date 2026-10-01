@@ -1,17 +1,5 @@
 # Product Viewed
 
-> **Status:** Current — Adobe Analytics Package 2
-> **Contract validated:** 2026-09-02/03 on production beacons · 17 event families, 0 contract failures
-> **Last updated:** 2026-09-16 — Package 2 field renames applied
->
-> | From | To | Why |
-> |---|---|---|
-> | `productID` | `productId` | Package 2 rename — camelCase standardised across product fields |
-> | `promoPricing` | `promotionalPricing` | Package 2 rename — full word, matches the SDR friendly name |
-> | `"yes"/"no"`, `"true"/"false"`, `"Y"/"N"` | `"TRUE"`/`"FALSE"` | Package 2 ruled these string booleans uppercase |
->
-> Only fields present on this page are listed. See the repository README for the full Package 2 change set.
-
 ## Javascript Code
 ```javascript
 window.appEventData = window.appEventData || [];
@@ -60,3 +48,23 @@ appEventData.push({
 | `product[].productInfo.specialPricingInitiative` | string | Special pricing flag; explicit fallback `FALSE`| `FALSE` |
 | `product[].price.basePrice` | string | MSRP | `55.60` |
 | `product[].price.sellingPrice` | string | Discounted price| `34.22` |
+
+---
+
+## Noteworthy Changes
+
+### 2026-09-16
+
+Package 2 field renames applied. Page current for Adobe Analytics Package 2. Only the fields on this
+page are listed; the repository README has the full Package 2 change set.
+
+| From | To | Why |
+|---|---|---|
+| `productID` | `productId` | Package 2 rename — camelCase standardised across product fields |
+| `promoPricing` | `promotionalPricing` | Package 2 rename — full word, matches the SDR friendly name |
+| `"yes"/"no"`, `"true"/"false"`, `"Y"/"N"` | `"TRUE"`/`"FALSE"` | Package 2 ruled these string booleans uppercase |
+
+### 2026-09-03
+
+Contract validated on production beacons on 2026-09-02 and 2026-09-03: 17 event families, 0 contract
+failures.

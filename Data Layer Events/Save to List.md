@@ -1,17 +1,5 @@
 # Save to List
 
-> **Status:** Current — Adobe Analytics Package 2
-> **Contract validated:** 2026-09-02/03 on production beacons · 17 event families, 0 contract failures
-> **Last updated:** 2026-09-16 — Package 2 field renames applied
->
-> | From | To | Why |
-> |---|---|---|
-> | `productID` | `productId` | Package 2 rename — camelCase standardised across product fields |
-> | `promoPricing` | `promotionalPricing` | Package 2 rename — full word, matches the SDR friendly name |
-> | `"yes"/"no"`, `"true"/"false"`, `"Y"/"N"` | `"TRUE"`/`"FALSE"` | Package 2 ruled these string booleans uppercase |
->
-> Only fields present on this page are listed. See the repository README for the full Package 2 change set.
-
 This event is set when the site visitor executes a save to list action.
 
 ---
@@ -70,3 +58,23 @@ window.appEventData.push({
 | **quoteRequired** | string | Set with a value of "TRUE" or "FALSE" for each item when a cart is saved, saved to a list, or products are moved to a cart from a saved cart/list. | TRUE, FALSE |
 | **sellingPrice** | string | This should be added as the price for the product including the discount amount. | 293.25, 97.88 |
 | **sku** | string | Stock Keeping Unit (SKU) Unique Identifier of specific item (typically) held in inventory. | 02651684, 34567890 |
+
+---
+
+## Noteworthy Changes
+
+### 2026-09-16
+
+Package 2 field renames applied. Page current for Adobe Analytics Package 2. Only the fields on this
+page are listed; the repository README has the full Package 2 change set.
+
+| From | To | Why |
+|---|---|---|
+| `productID` | `productId` | Package 2 rename — camelCase standardised across product fields |
+| `promoPricing` | `promotionalPricing` | Package 2 rename — full word, matches the SDR friendly name |
+| `"yes"/"no"`, `"true"/"false"`, `"Y"/"N"` | `"TRUE"`/`"FALSE"` | Package 2 ruled these string booleans uppercase |
+
+### 2026-09-03
+
+Contract validated on production beacons on 2026-09-02 and 2026-09-03: 17 event families, 0 contract
+failures.

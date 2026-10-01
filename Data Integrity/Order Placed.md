@@ -1,20 +1,5 @@
 # Order Placed
 
-> **Status:** Current — Adobe Analytics Package 2
-> **Contract validated:** 2026-09-02/03 on production beacons · 17 event families, 0 contract failures
-> **Last updated:** 2026-09-16 — Package 2 field renames applied
->
-> | From | To | Why |
-> |---|---|---|
-> | `productID` | `productId` | Package 2 rename — camelCase standardised across product fields |
-> | `promoPricing` | `promotionalPricing` | Package 2 rename — full word, matches the SDR friendly name |
-> | `moq` | `minimumPurchaseQuantityNotMet` | Package 2 rename — explicit name replaces the `moq` abbreviation |
-> | `transactionID` | `transactionId` | Package 2 rename — camelCase standardised |
-> | `poNumber` | `purchaseOrderNumber` | Package 2 rename — explicit name replaces the `poNumber` abbreviation |
-> | `"yes"/"no"`, `"true"/"false"`, `"Y"/"N"` | `"TRUE"`/`"FALSE"` | Package 2 ruled these string booleans uppercase |
->
-> Only fields present on this page are listed. See the repository README for the full Package 2 change set.
-
 Event should fire whenever a user successfully completes an order and the order confirmation is displayed.
 
 ## Javascript Code
@@ -99,3 +84,26 @@ appEventData.push({
 | `transaction.item[].price.sellingPrice` | string | Price paid after discounts | `16.14` |
 | `transaction.item[].quantity` | string | Units purchased | `1` |
 | `transaction.item[].minimumPurchaseQuantityNotMet` | string | `TRUE` if the product's MOQ has not been met  | `TRUE` |
+
+---
+
+## Noteworthy Changes
+
+### 2026-09-16
+
+Package 2 field renames applied. Page current for Adobe Analytics Package 2. Only the fields on this
+page are listed; the repository README has the full Package 2 change set.
+
+| From | To | Why |
+|---|---|---|
+| `productID` | `productId` | Package 2 rename — camelCase standardised across product fields |
+| `promoPricing` | `promotionalPricing` | Package 2 rename — full word, matches the SDR friendly name |
+| `moq` | `minimumPurchaseQuantityNotMet` | Package 2 rename — explicit name replaces the `moq` abbreviation |
+| `transactionID` | `transactionId` | Package 2 rename — camelCase standardised |
+| `poNumber` | `purchaseOrderNumber` | Package 2 rename — explicit name replaces the `poNumber` abbreviation |
+| `"yes"/"no"`, `"true"/"false"`, `"Y"/"N"` | `"TRUE"`/`"FALSE"` | Package 2 ruled these string booleans uppercase |
+
+### 2026-09-03
+
+Contract validated on production beacons on 2026-09-02 and 2026-09-03: 17 event families, 0 contract
+failures.

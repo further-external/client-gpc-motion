@@ -23,3 +23,11 @@ appEventData.push({
 | `user.userKey` | string | Yes | User surrogate key |`AL98Y105`|
 | `user.branchID` | string | Yes | Branch identifier | `AL98`|
 | `user.emailAddress` | string | Yes | **SHA-256 hex hash** of lowercased, trimmed email. Never unhashed text values |`b1c53f9a4b8e2b6f4e1f2a3c5d7e9f0a1b2c3d4e5f60718293a4b5c6d7e8f901` |
+
+---
+
+## Noteworthy Changes
+
+### 2026-09-16
+
+Page added.

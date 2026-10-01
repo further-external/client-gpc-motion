@@ -1,36 +1,5 @@
 # Listing Clicked
 
-> **Status:** Current — Adobe Analytics Package 2
-> **Contract validated:** 2026-09-02/03 on production beacons · 17 event families, 0 contract failures
-> **Last updated:** 2026-09-16 — Package 2 field renames applied
->
-> | From | To | Why |
-> |---|---|---|
-> | `productID` | `productId` | Package 2 rename — camelCase standardised across product fields |
-> | `promoPricing` | `promotionalPricing` | Package 2 rename — full word, matches the SDR friendly name |
-> | `"yes"/"no"`, `"true"/"false"`, `"Y"/"N"` | `"TRUE"`/`"FALSE"` | Package 2 ruled these string booleans uppercase |
->
-> Only fields present on this page are listed. See the repository README for the full Package 2 change set.
->
-> ---
->
-> **2026-09-24 — `findingWidget` / `findingPage` added.** Source: `further-adobe-changelog.md`,
-> Zack Miller 2026-09-17.
->
-> ⚠️ **NOT IN PRODUCTION.** Zack: *"None of these are in production just yet, pending our own
-> internal QA testing and any necessary coordination with y'all."* The work ships in two phases:
-> **Part 1** adds the pair, **Part 2** removes the superseded field. **Part 2 has no release date.**
->
-> Vocabulary: **Appendix A** of the changelog is a *closed* 35-value `findingWidget` set.
-> **`findingPage` introduces no new vocabulary** — it reuses the existing `pageType` values already
-> sent on Page Loaded (Appendix B), where `''` means the URL maps to no known page type.
-> 
-> **On this event the pair sits at `listing.listingResults`.**
->
-> 🔴 **Part 1 also changes volume on this event.** Listing Clicked now fires from **six surfaces that
-> never dispatched it** — see the coverage note below. Expect a step change that is a coverage fix,
-> not customer behaviour.
-
 
 Fires when a listing item is clicked (click-through to PDP or add-to-cart from listing). Contains only the clicked item.
 
@@ -94,9 +63,9 @@ appEventData.push({
 | `listing.listingParams.sorts.sortSequence` | string | Sort dominance in multi-sort | `1` |
 | `listing.listingResults.resultsCount` | string | Total matching items. | `4` |
 | `listing.listingResults.resultsShown` | string | Items rendered | `4` |
-| `listing.listingResults.findingWidget` | string | **Part 1 addition.** Widget or flow the clicked item was found through. Closed 35-value vocabulary, Appendix A | `RESULTS_LIST` |
-| `listing.listingResults.findingPage` | string | **Part 1 addition.** Page classification of the URL at click time. Reuses the `pageType` vocabulary, Appendix B | `SEARCH_RESULTS` |
-| `listing.listingResults.itemListType` | string | ⚠️ **PENDING REMOVAL in Part 2** — superseded by `findingWidget`, which is more granular. Note `'You May Also Like'` mapped to **three different** new values and `'Customers Also Bought'` to two, so this is not a rename. `'Home Page - Best Sellers'` retires with no replacement — it had no live call site and never appeared on the wire. List type of the clicked item's widget | `You May Also Like` |
+| `listing.listingResults.findingWidget` | string | Widget or flow the clicked item was found through, one of 35 fixed values. **Added 2026-09-24 (Part 1), not yet in production.** | `RESULTS_LIST` |
+| `listing.listingResults.findingPage` | string | Page type of the URL when the item was clicked. Uses the existing `pageType` values. **Added 2026-09-24 (Part 1), not yet in production.** | `SEARCH_RESULTS` |
+| `listing.listingResults.itemListType` | string | **Pending removal (Part 2).** Replaced by `findingWidget`. See Noteworthy Changes. List type of the clicked item's widget | `You May Also Like` |
 | `listing.listingResults.item[].itemPosition` | integer | 1-based position of the clicked item | `3` |
 | `listing.listingResults.item[].productInfo.sku` | string | SKU of clicked item | `04225797` |
 | `listing.listingResults.item[].productInfo.productId` | string | Unique product identifier | `04225797` |
@@ -110,7 +79,55 @@ appEventData.push({
 | `listing.listingResults.item[].price.basePrice` | string | MSRP| `55.60` |
 | `listing.listingResults.item[].price.sellingPrice` | string | Discounted price| `34.22` |
 
-## Part 1 coverage change — six surfaces start firing (2026-09-24)
+---
+
+## Noteworthy Changes
+
+### 2026-09-24
+
+**`findingWidget` and `findingPage` added. Not in production yet.**
+
+Source: Zack Miller's `further-adobe-changelog.md`, emailed 2026-09-17. Zack: *"None of these are in
+production just yet, pending our own internal QA testing and any necessary coordination with y'all."*
+
+The change ships in two parts. Part 1 adds the two fields. Part 2 removes the field they replace.
+Part 2 has no release date yet.
+
+- `findingWidget` is one of 35 fixed values (Appendix A of the changelog).
+- `findingPage` adds no new values. It reuses the `pageType` values already sent on Page Loaded. An
+  empty string means the URL matched no known page type.
+
+On this event the two fields sit on `listing.listingResults`.
+
+**Volume will rise in Part 1.** Listing Clicked starts firing from six places that never sent it
+before (listed below). That is a coverage fix, not a change in customer behaviour.
+
+#### Old to new: `itemListType`
+
+This is not a straight rename. `'You May Also Like'` maps to three different new values and
+`'Customers Also Bought'` to two, because different recommendation algorithms sat behind the same
+label. `'Home Page - Best Sellers'` is retired with no replacement; it never appeared on the wire.
+
+| Old `itemListType` wire value | Surface | Replacement `findingWidget` |
+|---|---|---|
+| `'ITEM_LIST'` | Main search / category / brand / no-results results list | `RESULTS_LIST` |
+| `'ITEM_LIST'` | CSN block embedded in a results page | `CSN_LIST` |
+| `'item-compare'` | Compare dialog, compare page cards, compare sticky row | `COMPARE_PRODUCTS` |
+| `'Header - Best Sellers'` | Header All Products mega-menu recommendations | `ALL_PRODUCTS_MENU_RECOMMENDED_PRODUCTS` |
+| `'Buy It Again'` | Order-management Buy It Again table | `BUY_IT_AGAIN` |
+| `'Home Page - Recommended Products'` | Home "Recommended for you" carousel | `RECOMMENDED_PRODUCTS` |
+| `'Home Page - Recently Viewed'` | Home "Recently viewed" carousel | `RECENTLY_VIEWED_PRODUCTS` |
+| `'You May Also Like'` | PDP / category-listing / vertical-slider "You May Also Like" | `YOU_MAY_ALSO_LIKE_PRODUCTS` |
+| `'You May Also Like'` | Checkout-complete / punchout-complete carousel | `RECOMMENDED_PRODUCTS` |
+| `'You May Also Like'` | Cart page, non-empty cart | `CUSTOMERS_ALSO_BOUGHT_PRODUCTS` |
+| `'Customers Also Bought'` | PDP "Frequently Purchased With" | `CUSTOMERS_ALSO_BOUGHT_PRODUCTS` |
+| `'Customers Also Bought'` | Add-to-cart overlay nested carousel | `CART_OVERLAY_CUSTOMERS_ALSO_BOUGHT_PRODUCTS` |
+| `'Substitute'` | PDP substitute carousel | `SUBSTITUTE_PRODUCTS` |
+| `'NoResults - Recommended'` | No-results page recommended carousel | `RECOMMENDED_PRODUCTS` |
+| `'EmptyCart - Frequently Purchased'` | Cart empty-cart carousel | `RECENTLY_VIEWED_PRODUCTS` |
+| `'Featured Products'` | L1 category "Featured Products" | `FEATURED_PRODUCTS` |
+
+#### Part 1 coverage change: six surfaces start firing
 
 These product links previously navigated **silently**. Each now emits a normal Listing Clicked with
 `itemPosition`, product info and the attribution pair.
@@ -127,3 +144,19 @@ These product links previously navigated **silently**. Each now emits a normal L
 ⚠️ **This is a coverage fix, not a behaviour change.** Historical volume for these six surfaces should
 be read as **missing, not zero**. An Adobe annotation at the release date is required, or every
 Listing Clicked trend reads as a step change in engagement.
+
+### 2026-09-16
+
+Package 2 field renames applied. Page current for Adobe Analytics Package 2. Only the fields on this
+page are listed; the repository README has the full Package 2 change set.
+
+| From | To | Why |
+|---|---|---|
+| `productID` | `productId` | Package 2 rename — camelCase standardised across product fields |
+| `promoPricing` | `promotionalPricing` | Package 2 rename — full word, matches the SDR friendly name |
+| `"yes"/"no"`, `"true"/"false"`, `"Y"/"N"` | `"TRUE"`/`"FALSE"` | Package 2 ruled these string booleans uppercase |
+
+### 2026-09-03
+
+Contract validated on production beacons on 2026-09-02 and 2026-09-03: 17 event families, 0 contract
+failures.

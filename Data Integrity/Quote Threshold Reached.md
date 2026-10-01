@@ -1,39 +1,5 @@
 # Quote Threshold Reached
 
-> **Status:** Current — Adobe Analytics Package 2
-> **Contract validated:** 2026-09-02/03 on production beacons · 17 event families, 0 contract failures
-> **Last updated:** 2026-09-16 — Package 2 field renames applied
->
-> | From | To | Why |
-> |---|---|---|
-> | `productID` | `productId` | Package 2 rename — camelCase standardised across product fields |
-> | `promoPricing` | `promotionalPricing` | Package 2 rename — full word, matches the SDR friendly name |
-> | `"yes"/"no"`, `"true"/"false"`, `"Y"/"N"` | `"TRUE"`/`"FALSE"` | Package 2 ruled these string booleans uppercase |
->
-> Only fields present on this page are listed. See the repository README for the full Package 2 change set.
->
-> ---
->
-> **2026-09-24 — `findingWidget` / `findingPage` added.** Source: `further-adobe-changelog.md`,
-> Zack Miller 2026-09-17.
->
-> ⚠️ **NOT IN PRODUCTION.** Zack: *"None of these are in production just yet, pending our own
-> internal QA testing and any necessary coordination with y'all."* The work ships in two phases:
-> **Part 1** adds the pair, **Part 2** removes the superseded field. **Part 2 has no release date.**
->
-> Vocabulary: **Appendix A** of the changelog is a *closed* 35-value `findingWidget` set.
-> **`findingPage` introduces no new vocabulary** — it reuses the existing `pageType` values already
-> sent on Page Loaded (Appendix B), where `''` means the URL maps to no known page type.
-> 
-> 🔴 **THIS EVENT HAS NO DUAL-WRITE WINDOW.** It **gains** the pair and **loses**
-> `thresholdLocation` in the *same* change — the changelog states there is no window where both old
-> and new fields are present. Every other event in this set has a Part 1 window where old and new
-> can be reconciled on live traffic. **This one does not, so it carries the whole validation load in
-> a lower environment.**
->
-> **The pair sits at `product[]` — top-level siblings of `threshold`, NOT nested inside it.**
-> `threshold` retains `thresholdType` and nothing else.
-
 
 Event should fire whenever a quantity change crosses the quote threshold: either an increase that crosses into quote-required territory, or a decrease back below it.
 
@@ -82,15 +48,52 @@ appEventData.push({
 | `product[].productInfo.specialPricingInitiative` | string | Special pricing flag; explicit fallback `FALSE` | `FALSE` |
 | `product[].price.basePrice` | string | MSRP; unformatted, no thousands separators, ≤2 decimals; `"0"` when no price is available | `3.31` |
 | `product[].price.sellingPrice` | string | Discounted price; same format rules as basePrice | `1.54` |
-| `product[].findingWidget` | string | **Addition — top-level sibling of `threshold`, not nested inside it.** Widget or flow where the quantity change happened. Closed 35-value vocabulary, Appendix A | `RESULTS_LIST` |
-| `product[].findingPage` | string | **Addition — top-level sibling of `threshold`.** Page classification of the URL. Reuses the `pageType` vocabulary, Appendix B | `SHOPPING_CART` |
+| `product[].findingWidget` | string | Widget or flow where the quantity changed, one of 35 fixed values. Sits next to `threshold`, not inside it. **Added 2026-09-24, in the same release that removes `thresholdLocation`. Not yet in production.** | `RESULTS_LIST` |
+| `product[].findingPage` | string | Page type of the URL when the quantity changed. Uses the existing `pageType` values. Sits next to `threshold`. **Added 2026-09-24, in the same release that removes `thresholdLocation`. Not yet in production.** | `SHOPPING_CART` |
 | `product[].threshold.thresholdType` | string | `quote required` (increase crossed the threshold) or `add to cart` (decrease back below it) | `quote required` |
-| `product[].threshold.thresholdLocation` | string | ⚠️ **PENDING REMOVAL — same change as the additions above, no dual-write window.** Superseded by `findingWidget`/`findingPage`. Old→new: `'cart'`→`DIRECT`+`SHOPPING_CART`, `'pdp'`→`DIRECT`+`PRODUCT_DETAIL`, `'plp'`→`RESULTS_LIST`, `'saved list'`→`SAVED_LIST`, `'Buy It Again'`→`BUY_IT_AGAIN`, `'cart flyout'`→`CART_FLYOUT`, `'cart overlay'`→`CART_OVERLAY`. Location of the quantity change: `pdp`, `plp`, `cart`, `best sellers`, `recommended items` | `plp` |
+| `product[].threshold.thresholdLocation` | string | **Pending removal, in the same release that adds `findingWidget`.** See Noteworthy Changes. Location of the quantity change: `pdp`, `plp`, `cart`, `best sellers`, `recommended items` | `plp` |
 | `product[].quantity` | string | Quantity at the time of the threshold cross | `5600` |
 
-## Part 1/2 notes for this event (2026-09-24)
+---
 
-### Five surfaces gain coverage that previously reported no location at all
+## Noteworthy Changes
+
+### 2026-09-24
+
+**`findingWidget` and `findingPage` added. Not in production yet.**
+
+Source: Zack Miller's `further-adobe-changelog.md`, emailed 2026-09-17. Zack: *"None of these are in
+production just yet, pending our own internal QA testing and any necessary coordination with y'all."*
+
+The change ships in two parts. Part 1 adds the two fields. Part 2 removes the field they replace.
+Part 2 has no release date yet.
+
+- `findingWidget` is one of 35 fixed values (Appendix A of the changelog).
+- `findingPage` adds no new values. It reuses the `pageType` values already sent on Page Loaded. An
+  empty string means the URL matched no known page type.
+
+**No overlap window on this event.** It gains the two fields and loses `thresholdLocation` in
+the same release. Every other event in this set has a period where old and new fields are both sent
+and can be checked against each other. This one does not, so it has to be validated in a lower
+environment before release.
+
+The two fields sit on each item in `product[]`, next to `threshold`, not inside it. `threshold` keeps
+`thresholdType` and nothing else.
+
+#### Old to new: `thresholdLocation`
+
+| Old `thresholdLocation` wire value | Surface | New `findingWidget` | New `findingPage` |
+|---|---|---|---|
+| `'cart'` | Cart page line-item quantity stepper | `DIRECT` | `SHOPPING_CART` |
+| `'pdp'` | PDP add-to-cart form quantity stepper | `DIRECT` | `PRODUCT_DETAIL` |
+| `'plp'` | Search / category / brand results quantity stepper | `RESULTS_LIST` | URL-derived |
+| `'saved list'` | Saved-list item-card quantity stepper | `SAVED_LIST` | URL-derived |
+| `'saved list'` | Substitute item cards — **see correction below** | `SUBSTITUTE_DIALOG_PRODUCTS` | URL-derived |
+| `'Buy It Again'` | Home Buy It Again dashboard card quantity stepper | `BUY_IT_AGAIN` | URL-derived |
+| `'cart flyout'` | Mini-cart flyout quantity stepper | `CART_FLYOUT` | URL-derived |
+| `'cart overlay'` | Add-to-cart overlay item-list quantity stepper | `CART_OVERLAY` | URL-derived |
+
+#### Five surfaces gain coverage that previously reported no location at all
 
 Saved-list "Add Items" search results → `SAVED_LIST` · asset-management product details →
 `ASSET_PROFILE` · compare dialog and compare page → `COMPARE_PRODUCTS` · SAYT recommended-product side
@@ -99,7 +102,7 @@ buttons → `SEARCH_AS_YOU_TYPE` · any carousel-embedded stepper → *that caro
 These fired threshold events with **no location information**. They now report normally, so expect
 volume to appear where there was none.
 
-### 🔴 A correction, not a rename: substitute item cards were mislabeled
+#### A correction, not a rename: substitute item cards were mislabeled
 
 The substitute item card **hardcoded `thresholdLocation: 'saved list'`** on the component itself. Those
 cards render only in the PDP out-of-stock dialog and the quick-order substitute dialog — **never in a
@@ -112,7 +115,23 @@ Genuine saved-list steppers were and remain `SAVED_LIST`.
 ⚠️ **So historical `'saved list'` threshold volume is a blend of two unrelated surfaces and cannot be
 cleanly split.** Going forward they separate; the history does not. This needs an annotation.
 
-### Three declared values never appeared on a threshold event
+#### Three declared values never appeared on a threshold event
 
 `thresholdLocation` shared an enum with Listing Clicked, so `'CSN'`, `'Order History'` and `'Quotes'`
 were never threshold values. They are covered by the Listing Clicked mapping.
+
+### 2026-09-16
+
+Package 2 field renames applied. Page current for Adobe Analytics Package 2. Only the fields on this
+page are listed; the repository README has the full Package 2 change set.
+
+| From | To | Why |
+|---|---|---|
+| `productID` | `productId` | Package 2 rename — camelCase standardised across product fields |
+| `promoPricing` | `promotionalPricing` | Package 2 rename — full word, matches the SDR friendly name |
+| `"yes"/"no"`, `"true"/"false"`, `"Y"/"N"` | `"TRUE"`/`"FALSE"` | Package 2 ruled these string booleans uppercase |
+
+### 2026-09-03
+
+Contract validated on production beacons on 2026-09-02 and 2026-09-03: 17 event families, 0 contract
+failures.
