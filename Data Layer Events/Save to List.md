@@ -16,12 +16,12 @@ window.appEventData.push({
     {
       "productInfo": {
         "sku": "<sku>",
-        "productID": "<productID>",
+        "productId": "<productId>",
         "brand": "<brand>",
         "inventoryStatus": "<inventoryStatus>",
         "productImage": "<productImage>",
         "quoteRequired": "<quoteRequired>",
-        "promoPricing": "<promoPricing>",
+        "promotionalPricing": "<promotionalPricing>",
         "specialPricingInitiative": "<specialPricingInitiative>",
         "cartThreshold": "<cartThreshold>"
       },
@@ -51,10 +51,30 @@ window.appEventData.push({
 | **inventoryStatus** | string | Set to the inventory status of the product | In stock, in-stock-no-detail, limited availability |
 | **listName** | string | The name of the list where a product was saved | my custom list, Bearings, Bolts |
 | **numberOfItemsSaved** | integer | Capture the number of items saved in a cart | 1,2,3,4,5 |
-| **productID** | string | Unique Identifier of a product or offering. Must match the format of back-end systems if used as a key for import of product meta data. | 02651684, 15565588 |
-| **productImage** | string | If an image is present for a product, a unique image identifier or flag should be present here | true |
-| **promoPricing** | string | A flag representing if the product is currently seen or purchased at a promotional price. | yes, no |
+| **productId** | string | Unique Identifier of a product or offering. Must match the format of back-end systems if used as a key for import of product meta data. | 02651684, 15565588 |
+| **productImage** | string | If an image is present for a product, a unique image identifier or flag should be present here | TRUE |
+| **promotionalPricing** | string | A flag representing if the product is currently seen or purchased at a promotional price. | TRUE, FALSE |
 | **quantity** | integer | Integer number of products being acted upon | 1,2,3,4,5 |
-| **quoteRequired** | string | Set with a value of "yes" or "no" for each item when a cart is saved, saved to a list, or products are moved to a cart from a saved cart/list. | yes, no |
+| **quoteRequired** | string | Set with a value of "TRUE" or "FALSE" for each item when a cart is saved, saved to a list, or products are moved to a cart from a saved cart/list. | TRUE, FALSE |
 | **sellingPrice** | string | This should be added as the price for the product including the discount amount. | 293.25, 97.88 |
 | **sku** | string | Stock Keeping Unit (SKU) Unique Identifier of specific item (typically) held in inventory. | 02651684, 34567890 |
+
+---
+
+## Noteworthy Changes
+
+### 2026-09-16
+
+Package 2 field renames applied. Page current for Adobe Analytics Package 2. Only the fields on this
+page are listed; the repository README has the full Package 2 change set.
+
+| From | To | Why |
+|---|---|---|
+| `productID` | `productId` | Package 2 rename — camelCase standardised across product fields |
+| `promoPricing` | `promotionalPricing` | Package 2 rename — full word, matches the SDR friendly name |
+| `"yes"/"no"`, `"true"/"false"`, `"Y"/"N"` | `"TRUE"`/`"FALSE"` | Package 2 ruled these string booleans uppercase |
+
+### 2026-09-03
+
+Contract validated on production beacons on 2026-09-02 and 2026-09-03: 17 event families, 0 contract
+failures.
