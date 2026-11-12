@@ -4,9 +4,9 @@
 
 | Data | Adobe variable | Value format | Expiry / allocation | Notes |
 |---|---|---|---|---|
-| Assignments (Page Loaded `experiments`) | **list variable 2** (to confirm free) | `flagKey:variation`, one value per flag | Hit; set on every hit | list1 is already used (Refinements); only two list variables remain |
-| Exposure (Experiment Exposed) | **list prop** (number to assign) + **counter event** (number to assign) | `flagKey:variation` | Hit | Keeps the last list variable free |
-| Variation label | **Classification** of `flagKey:variation` | e.g. `Site refresh: new` | n/a | Static labels only (experiment name, variation label, owner). Classifications apply to all history, so they can't hold dates |
+| Assignments (Page Loaded `experiments`) | **list variable 2** (to confirm free) | `flagKey:value`, one value per flag (see [Flag labels](flag-labels.md)) | Hit; set on every hit | list1 is already used (Refinements); only two list variables remain |
+| Exposure (Experiment Exposed) | **list prop** (number to assign) + **counter event** (number to assign) | `flagKey:value` | Hit | Keeps the last list variable free |
+| Variation label | **Classification set** on `flagKey:value` | e.g. `Site refresh: new` | n/a | Filled automatically: a split rule for key and value, plus a daily file from the LaunchDarkly API for names. See [Flag labels](flag-labels.md). Static labels only; classifications can't hold dates |
 | LaunchDarkly visitor ID | eVar + prop (numbers to assign) | as sent | eVar: visit | Only with analytics consent. See [Privacy](../privacy.md) |
 
 ## Rules for the tag manager
