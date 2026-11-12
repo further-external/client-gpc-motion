@@ -56,6 +56,7 @@ flowchart LR
 |---|---|
 | [Flag allowlist](reference/flag-allowlist.md) | The flags we send, starting with the site refresh flag |
 | [Adobe mapping](reference/adobe-mapping.md) | Which Adobe variables hold what, and the rules for link calls |
+| [Flag labels](reference/flag-labels.md) | How flag and variation names stay current in Adobe without manual exports |
 | [Privacy](privacy.md) | What is never sent, and the visitor ID consent rule |
 | [Open questions](open-questions.md) | The decisions we need before building |
 | [Checking a build](checking-a-build.md) | How to test before release |

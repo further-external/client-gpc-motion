@@ -19,7 +19,7 @@ production after release. Never paste real visitor IDs or flag contexts into a t
 ## What reaches Adobe
 
 6. In the Adobe debugger, each page view carries the assignment list variable with one
-   `flagKey:variation` per flag.
+   `flagKey:value` per flag (for example `page-brand-refresh:true`).
 7. Add a product to the cart: the cart-add hit (a link call) carries the same list variable.
 8. With analytics cookies declined, no hit reaches Adobe.
 
